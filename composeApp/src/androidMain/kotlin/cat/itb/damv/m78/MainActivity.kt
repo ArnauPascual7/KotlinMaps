@@ -12,7 +12,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             //App()
-            MapsScreen()
+            //MapsScreen()
+            Navigation()
         }
     }
 }
