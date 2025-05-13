@@ -34,10 +34,10 @@ fun MarkersScreen(viewModel: MarkersViewModel = viewModel(), navViewModel: NavVi
         Spacer(Modifier.height(20.dp))
         Text("Marcadors", fontSize = 30.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
 
-        Spacer(Modifier.height(20.dp))
+        /*Spacer(Modifier.height(20.dp))
         Button(onClick = { navViewModel.navTo(Screen.AddMarker) }) {
             Text("Afegir un marcador")
-        }
+        }*/
 
         Spacer(Modifier.height(20.dp))
         LazyColumn {
@@ -52,7 +52,7 @@ fun MarkersScreen(viewModel: MarkersViewModel = viewModel(), navViewModel: NavVi
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "${marker.title}: Lat: ${marker.latLng.latitude}, Lng: ${marker.latLng.longitude}",
+                        text = "${marker.title}: Lat: ${"%.4f".format(marker.latLng.latitude)}, Lng: ${"%.4f".format(marker.latLng.longitude)}",
                         modifier = Modifier.padding(start = 20.dp),
                         fontWeight = FontWeight.Bold
                     )

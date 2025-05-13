@@ -9,6 +9,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,6 +24,7 @@ fun MarkerDetailScreen(
     val marker = markersViewModel.getMarkerById(markerId) ?: return
     var title by remember { mutableStateOf(marker.title) }
     var description by remember { mutableStateOf(marker.description) }
+    var errorMessage by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.padding(16.dp)) {
         Text("Editar marcador", fontWeight = FontWeight.Bold, fontSize = 20.sp)
@@ -39,9 +41,18 @@ fun MarkerDetailScreen(
             label = { Text("Descripció") }
         )
         Spacer(Modifier.height(20.dp))
+
+        if (errorMessage.isNotEmpty()) {
+            Text(text = errorMessage, color = Color.Red)
+        }
+
         Button(onClick = {
-            markersViewModel.updateMarker(marker.copy(title = title, description = description))
-            navViewModel.navTo(Screen.Markers)
+            if (title.isNotEmpty()) {
+                markersViewModel.updateMarker(marker.copy(title = title, description = description))
+                navViewModel.navTo(Screen.Markers)
+            } else {
+                errorMessage = "Has d'afegir un títol al marcador"
+            }
         }) {
             Text("Desar")
         }

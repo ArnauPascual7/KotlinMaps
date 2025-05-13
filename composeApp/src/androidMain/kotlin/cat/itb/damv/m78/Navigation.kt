@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 
 sealed interface Screen {
@@ -92,7 +93,7 @@ fun Navigation() {
                         MarkerDetailScreen(markerId, navViewModel)
                     }
                     Screen.AddMarker -> AddMarkerScreen(
-                        onAddMarker = { marker ->
+                        onAddMarker = {
                             navViewModel.navTo(Screen.Markers)
                         },
                         onCancel = {

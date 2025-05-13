@@ -7,7 +7,9 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.maps.GoogleMapOptions
@@ -29,6 +31,7 @@ data class MarkerData(
 
 class MarkersViewModel : ViewModel() {
     val markers = mutableStateListOf<MarkerData>()
+    val newMarkerLatLng = mutableStateOf<LatLng>(LatLng(41.3851, 2.1734))
 
     init {
         markers.addAll(
@@ -57,7 +60,7 @@ class MarkersViewModel : ViewModel() {
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun MapsScreen(viewModel: MarkersViewModel = viewModel()){
+fun MapsScreen(viewModel: MarkersViewModel = viewModel(), navViewModel: NavViewModel = viewModel()){
 
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(40.41,-3.70), 5f)
@@ -69,8 +72,10 @@ fun MapsScreen(viewModel: MarkersViewModel = viewModel()){
                 GoogleMapOptions().mapId("DEMO_MAP_ID")
             },
             onMapLongClick = { latLng ->
-                val newMarker = MarkerData(latLng = latLng)
-                viewModel.markers.add(newMarker)
+                //val newMarker = MarkerData(latLng = latLng)
+                viewModel.newMarkerLatLng.value = latLng
+                navViewModel.navTo(Screen.AddMarker)
+                //viewModel.markers.add(newMarker)
             },
             cameraPositionState = cameraPositionState
         ) {
